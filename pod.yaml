@@ -8,7 +8,7 @@ spec:
     image: gcr.io/kaniko-project/executor:latest
     args: ["--dockerfile=/workspace/Dockerfile",
             "--context=dir://workspace",
-            "--destination=<user-name>/<repo>"] # replace with your dockerhub account
+            "--destination=<repo>/<image>"] # replace with your repo and image
     volumeMounts:
       - name: kaniko-secret
         mountPath: "/kaniko/.docker"
@@ -19,7 +19,7 @@ spec:
   - name: init-kaniko
     image: yauritux/busybox-curl
     imagePullPolicy: IfNotPresent
-    command: ["sh", "-c", "curl -o /workspace/Dockerfile URL"]
+    command: ["sh", "-c", "curl -o /workspace/Dockerfile https://raw.githubusercontent.com/bharatmicrosystems/kubernetes-kaniko/master/Dockerfile"] # replace the url with your Docker file
     volumeMounts:
     - mountPath: "/workspace"
       name: dockerfile-storage
