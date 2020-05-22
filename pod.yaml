@@ -19,7 +19,7 @@ spec:
   - name: init-kaniko
     image: yauritux/busybox-curl
     imagePullPolicy: IfNotPresent
-    command: ["sh", "-c", "curl -o /workspace/Dockerfile https://raw.githubusercontent.com/bharatmicrosystems/kubernetes-kaniko/master/Dockerfile"] # replace the url with your Docker file
+    command: ["sh", "-c", "curl -k -o /workspace/Dockerfile https://raw.githubusercontent.com/bharatmicrosystems/kubernetes-kaniko/master/Dockerfile"] # replace the url with your Docker file
     volumeMounts:
     - mountPath: "/workspace"
       name: dockerfile-storage
