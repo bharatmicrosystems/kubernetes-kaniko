@@ -1,22 +1,24 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: kaniko
 spec:
-  containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
-    args: ["--dockerfile=Dockerfile",
-            "--context=git://github.com/GHUSER/GHREPO.git#refs/heads/master",
-            "--destination=<repo>/<tag>"]
-    volumeMounts:
+  template:
+    spec:
+      containers:
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:latest
+        args: ["--dockerfile=Dockerfile",
+               "--context=git://github.com/bharatmicrosystems/kubernetes-kaniko-nginx.git#refs/heads/master",
+               "--destination=bharamicrosystems/nginx:v4"]
+        volumeMounts:
+        - name: kaniko-secret
+          mountPath: "/kaniko/.docker"
+      restartPolicy: Never
+      volumes:
       - name: kaniko-secret
-        mountPath: "/kaniko/.docker"
-  restartPolicy: Never
-  volumes:
-    - name: kaniko-secret
-      secret:
-        secretName: regcred
-        items:
+        secret:
+          secretName: regcred
+          items:
           - key: .dockerconfigjson
             path: config.json
