@@ -1,2 +1,2 @@
 FROM nginx
-RUN echo 'This is version 4' > /usr/share/nginx/html/index.html
+RUN echo 'This is version v_x' > /usr/share/nginx/html/index.html
